@@ -55,7 +55,11 @@ class FacebookAuthenticationEntryPoint implements AuthenticationEntryPointInterf
         }
 
         $redirect_uri = $request->getUriForPath($this->options->get('check_path', ''));
-        if ($this->options->get('server_url') && $this->options->get('app_url')) {
+        if($this->options->get('redirect_uri_overwrite'))
+        {
+            $redirect_uri = $this->options->get('redirect_uri_overwrite').$this->options->get('check_path', '');
+        }
+        else if ($this->options->get('server_url') && $this->options->get('app_url')) {
             $redirect_uri = str_replace($this->options->get('server_url'), $this->options->get('app_url'), $redirect_uri);
         }
         
